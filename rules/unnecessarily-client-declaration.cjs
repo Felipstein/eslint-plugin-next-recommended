@@ -1,3 +1,5 @@
+const { interactivityAttributes } = require('../utils.cjs');
+
 module.exports = {
   meta: {
     type: 'suggestion',
@@ -36,6 +38,12 @@ module.exports = {
         const callee = node.callee;
 
         if (callee.type === 'Identifier' && callee.name.startsWith('use')) {
+          hasInteractivity = true;
+        }
+      },
+
+      JSXIdentifier(node) {
+        if(interactivityAttributes.includes(node.name)) {
           hasInteractivity = true;
         }
       },
