@@ -3,7 +3,7 @@ module.exports = {
     type: 'problem',
 
     docs: {
-      description: 'Hooks are only available for files declared as "use client"',
+      description: 'Hooks and interactivity are only available for files declared as "use client"',
     },
 
     fixable: 'code',

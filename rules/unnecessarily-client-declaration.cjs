@@ -11,7 +11,7 @@ module.exports = {
 
   create(context) {
     let useClientIsDeclared = false;
-    let hasHook = false;
+    let hasInteractivity = false;
     let firstStatement = null;
 
     return {
@@ -36,15 +36,16 @@ module.exports = {
         const callee = node.callee;
 
         if (callee.type === 'Identifier' && callee.name.startsWith('use')) {
-          hasHook = true;
+          hasInteractivity = true;
         }
       },
 
       'Program:exit'(node) {
-        if(!hasHook && useClientIsDeclared) {
+
+        if(!hasInteractivity && useClientIsDeclared) {
           context.report({
             node: firstStatement,
-            message: 'Client-side component declared as "use client" without any interactivity, which is unnecessary.',
+            message: `Client-side component declared as "use client" without any interactivity or hooks, which is unnecessary.`,
             fix: (fixer) => {
               const sourceCode = context.getSourceCode();
 
