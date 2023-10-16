@@ -1,0 +1,13 @@
+{
+  "name": "eslint-plugin-next-recommended",
+  "version": "1.0.0",
+  "main": "eslint-plugin-next-recommended.cjs",
+  "license": "MIT",
+  "author": "Felipe Oliveira",
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  },
+  "dependencies": {
+    "eslint": "^8.51.0"
+  }
+}
