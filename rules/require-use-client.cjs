@@ -1,4 +1,4 @@
-const { interactivityAttributes } = require('../utils.cjs');
+const { isDeclaredUseClient, isHookCall, isInteractivityAttribute } = require('../utils.cjs');
 
 module.exports = {
   meta: {
@@ -17,52 +17,34 @@ module.exports = {
 
     return {
       Program(node) {
-        const body = node.body
-
-        if(body.length === 0) {
-          return
-        }
-
-        if(body[0].type === 'ExpressionStatement') {
-          const expression = body[0].expression;
-
-          if(expression.value === 'use client') {
-            useClientIsDeclared = true
-          }
-        }
-
-        if(!useClientIsDeclared) {
-          firstStatement = body[0]
+        if(isDeclaredUseClient(node)) {
+          useClientIsDeclared = true;
+        } else {
+          firstStatement = node.body[0]
         }
       },
 
       CallExpression(node) {
-        const callee = node.callee
-
-        if(callee.type === 'Identifier' && callee.name.startsWith('use')) {
-          if(!useClientIsDeclared) {
-            context.report({
-              node,
-              message: `You must declare 'use client' at the beginning of this file before using hooks inside a component. Hooks (like ${callee.name}) only work on client-side components.`,
-              fix: (fixer) => (
-                fixer.insertTextBefore(firstStatement, "'use client'\n\n")
-              )
-            })
-          }
+        if(isHookCall(node) && !useClientIsDeclared) {
+          context.report({
+            node,
+            message: `You must declare 'use client' at the beginning of this file before using hooks inside a component. Hooks (like ${node.callee.name}) only work on client-side components.`,
+            fix: (fixer) => (
+              fixer.insertTextBefore(firstStatement, "'use client'\n\n")
+            )
+          });
         }
       },
 
       JSXIdentifier(node) {
-        if(interactivityAttributes.includes(node.name)) {
-          if(!useClientIsDeclared) {
-            context.report({
-              node,
-              message: `You must declare 'use client' at the beginning of this file before using interactivity inside a component. Interactivity (like ${node.name}) only work on client-side components.`,
-              fix: (fixer) => (
-                fixer.insertTextBefore(firstStatement, "'use client'\n\n")
-              )
-            })
-          }
+        if(isInteractivityAttribute(node) && !useClientIsDeclared) {
+          context.report({
+            node,
+            message: `You must declare 'use client' at the beginning of this file before using interactivity inside a component. Interactivity (like ${node.name}) only work on client-side components.`,
+            fix: (fixer) => (
+              fixer.insertTextBefore(firstStatement, "'use client'\n\n")
+            )
+          });
         }
       }
     };

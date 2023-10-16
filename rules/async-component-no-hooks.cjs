@@ -1,3 +1,5 @@
+const { isHookCall } = require('../utils.cjs');
+
 module.exports = {
   meta: {
     type: 'problem',
@@ -20,9 +22,7 @@ module.exports = {
       },
 
       CallExpression(node) {
-        const callee = node.callee
-
-        if(callee.type === 'Identifier' && callee.name.startsWith('use')) {
+        if(isHookCall(node)) {
           if(asyncFunctionsDeclared) {
             // If stop working, uncomment this verification line
             // const hookCallLoc = node.loc;

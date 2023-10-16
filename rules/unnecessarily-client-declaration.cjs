@@ -1,4 +1,4 @@
-const { interactivityAttributes } = require('../utils.cjs');
+const { isDeclaredUseClient, isHookCall, isInteractivityAttribute } = require('../utils.cjs');
 
 module.exports = {
   meta: {
@@ -18,38 +18,25 @@ module.exports = {
 
     return {
       Program(node) {
-        const body = node.body;
-
-        if (body.length === 0) {
-          return;
-        }
-
-        if (body[0].type === 'ExpressionStatement') {
-          const expression = body[0].expression;
-
-          if (expression.value === 'use client') {
-            useClientIsDeclared = true;
-            firstStatement = body[0]
-          }
+        if(isDeclaredUseClient(node)) {
+          useClientIsDeclared = true;
+          firstStatement = node.body[0]
         }
       },
 
       CallExpression(node) {
-        const callee = node.callee;
-
-        if (callee.type === 'Identifier' && callee.name.startsWith('use')) {
+        if (isHookCall(node)) {
           hasInteractivity = true;
         }
       },
 
       JSXIdentifier(node) {
-        if(interactivityAttributes.includes(node.name)) {
+        if(isInteractivityAttribute(node)) {
           hasInteractivity = true;
         }
       },
 
       'Program:exit'(node) {
-
         if(!hasInteractivity && useClientIsDeclared) {
           context.report({
             node: firstStatement,
