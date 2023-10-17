@@ -2,6 +2,8 @@
 
 This ESLint plugin helps in developing projects with NextJS, using the App Router feature.
 
+![Usage Example of rule require-use-client](https://i.imgur.com/bqrDGPO.gif)
+
 ## Installation
 
 Before getting started, ensure that you have ESLint installed.
