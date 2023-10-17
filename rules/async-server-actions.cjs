@@ -1,4 +1,4 @@
-const { isDeclaredUseServer } = require('../utils.cjs');
+const { isDeclaredUseServer, reportServerActionsMustBeAsync } = require('../utils.cjs');
 
 function isServerActionButNotAsync(node) {
   const isAsync = node.async;
@@ -14,13 +14,7 @@ function isServerActionButNotAsync(node) {
   return false;
 }
 
-function reportServerActionsMustBeAsync(context, node) {
-  context.report({
-    node,
-    message: 'Server actions must be async functions.',
-    fix: (fixer) => fixer.insertTextBefore(node, 'async '),
-  });
-}
+
 
 module.exports = {
   meta: {

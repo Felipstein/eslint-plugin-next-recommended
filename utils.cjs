@@ -62,6 +62,23 @@ function inspect(obj, full = true) {
   }
 }
 
+function reportServerActionsMustBeAsync(context, node, isExportedServerActions = false, fixable = true) {
+  const name = node.id?.name;
+
+  let message = 'Server actions must be async functions.';
+
+  if(isExportedServerActions && name) {
+
+    message += ` Function ${name} is being exported as a server action, but is not declared async.`
+  }
+
+  context.report({
+    node,
+    message,
+    fix: fixable ? (fixer) => fixer.insertTextBefore(node, 'async ') : undefined,
+  });
+}
+
 module.exports = {
   interactivityAttributes,
   isHookCall,
@@ -73,4 +90,5 @@ module.exports = {
   isAsyncFunction,
   isNotAsyncFunction,
   inspect,
+  reportServerActionsMustBeAsync,
 };

@@ -1,4 +1,4 @@
-const { isDeclaredUseServer, isFunction, isNotAsyncFunction } = require('../utils.cjs');
+const { isDeclaredUseServer, isFunction, isNotAsyncFunction, reportServerActionsMustBeAsync } = require('../utils.cjs');
 
 module.exports = {
   meta: {
@@ -81,7 +81,12 @@ module.exports = {
                 exportedUnknownNames.add(name);
               }
             } else if(isNotAsyncFunction(propertyValue)) {
-              exportedNoAsyncFunctions.push(propertyValue);
+              /**
+               * Attempting to fix these types of functions causes a strange bug.
+               * As this check is not functional according to NextJS, I see no
+               * reason to currently fix this.
+               */
+              exportedNoAsyncFunctions.push({ ...propertyValue, noFix: true });
             }
           })
         }
@@ -105,10 +110,9 @@ module.exports = {
         }
 
         exportedNoAsyncFunctions.forEach((node) => {
-          context.report({
-            node,
-            message: 'Server actions must be async functions.',
-          });
+          const noFix = node.noFix === true;
+
+          reportServerActionsMustBeAsync(context, node, true, !noFix);
         })
       },
     };
