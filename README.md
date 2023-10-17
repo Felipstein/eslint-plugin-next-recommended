@@ -1,3 +1,4 @@
-- Rules para server actions: (já verificar se a função declarada como 'use server' é uma promise)
+- Verificar se está sendo declarado 'use server' dentro de uma função que já está dentro de um arquivo declarado com 'use server'
 - The "use server" directive must be at the top of the function body.
 - The "use client" must be top too? (ver)
+- A "use server" file can only export async functions, found string.
