@@ -65,6 +65,7 @@ module.exports = {
 
           report(context, node, invalidExportFound)
         } else if(node.specifiers && node.specifiers.length > 0) {
+
           node.specifiers.forEach((exportSpecifier) => {
             if(exportSpecifier.type === 'ExportSpecifier' && (exportSpecifier.exported || exportSpecifier.local)) {
               const name = exportSpecifier.exported?.name || exportSpecifier.local?.name;
@@ -102,6 +103,12 @@ module.exports = {
           node.body.filter((item) => !isFunction(item) && item.type === 'VariableDeclaration').forEach((declaration) => {
             if(declaration.declarations && declaration.declarations.length > 0 && declaration.declarations[0].type === 'VariableDeclarator') {
               const variableDeclarator = declaration.declarations[0];
+
+              const initialValue = variableDeclarator.init;
+
+              if(isFunction(initialValue)) {
+                return;
+              }
 
               const variableName = variableDeclarator.id?.name;
 
