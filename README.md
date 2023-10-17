@@ -66,7 +66,7 @@ It is not necessary to implement the code below, but it is an example of how you
 This rule enforces that hooks and interactivity are available only for files declared as "use client". It helps maintain consistency and aligns with Next.js documentation.
 
 `next-recommended/unnecessarily-client-declaration`
-This rule identifies client-side components that are declared with "use client" but lack interactivity, highlighting unnecessary declarations.
+This rule identifies components that are declared with "use client" but lack interactivity, resulting in a component that runs unnecessarily on the client side.
 You can configure this rule to automatically remove the "use client" statement when unnecessary, just follow the example:
 ```js
 {
@@ -77,13 +77,13 @@ You can configure this rule to automatically remove the "use client" statement w
 ```
 
 `next-recommended/async-component-no-hooks`
-For asynchronous components declared as async, this rule disallows the usage of hooks. Asynchronous components are intended for Server Side execution and do not support client-side-specific functionality like hooks. This error can often result from inadvertently adding 'use client' to a module originally written for the server. Refer to Next.js documentation for additional context.
+For components declared as async, it is expected not to run client-side. Async components are intended to run on the server side and do not support specific client-side functionality such as hooks. This error can often result from inadvertently adding 'use client' to a module originally written for the server. See the [Next.js documentation](https://nextjs.org/docs/messages/no-async-client-component) for additional context.
 
 `next-recommended/async-server-actions`
-This rule ensures that server actions are declared as asynchronous functions, aligning with best practices for server-side functionality.
+This rule ensures that server actions are declared as async functions, aligning with best practices for server-side functionality.
 
 `next-recommended/async-exported-server-actions`
-In server action files, this rule enforces that all exported functions are asynchronous, maintaining consistency and preventing unintended errors.
+In server action files, this rule enforces that all exported functions are async, maintaining consistency and preventing NextJS errors. It may be worth highlighting that it is possible to export a non-async function preventing NextJS from generating an error, but I predict that this is not a recommended practice.
 
 `next-recommended/export-server-actions-only`
 For server action files, this rule allows only the export of functions related to server actions. Exporting anything other than functions within this context may raise exceptions in Next.js.
