@@ -64,6 +64,12 @@ module.exports = {
           if(!declaration.async) {
             exportedNoAsyncFunctions.push(declaration);
           }
+
+        /**
+         * This check is actually unnecessary, as next does not accept any
+         * exports other than asynchronous functions within files declared as
+         * "use server"
+         */
         } else if(declaration?.type === 'ObjectExpression' && declaration.properties && declaration.properties.length > 0) {
           declaration.properties.filter(property => property.type === 'Property').forEach(property => {
             const propertyValue = property.value;
