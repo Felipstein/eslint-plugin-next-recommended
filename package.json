@@ -1,9 +1,25 @@
 {
   "name": "eslint-plugin-next-recommended",
+  "description": "ESLint rules for NextJS App Router",
   "version": "1.0.0",
   "main": "eslint-plugin-next-recommended.cjs",
-  "license": "MIT",
   "author": "Felipe Oliveira",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Felipstein/eslint-plugin-next-recommended.git"
+  },
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin",
+    "next",
+    "eslintnext",
+    "eslint-next"
+  ],
+  "bugs": {
+    "url": "https://github.com/Felipstein/eslint-plugin-next-recommended/issues"
+  },
+  "license": "MIT",
   "peerDependencies": {
     "eslint": ">=8.0.0"
   },
