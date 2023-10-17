@@ -92,8 +92,6 @@ module.exports = {
           return;
         }
 
-        console.log({ exportedNoAsyncFunctions });
-
         if(exportedUnknownNames.size > 0) {
           node.body.filter(isFunction).forEach((func) => {
             const name = func.id?.name;
