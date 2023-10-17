@@ -1,3 +1,5 @@
+const util = require('util');
+
 const interactivityAttributes = ['onClick', 'onChange'];
 
 function isHookCall(node) {
@@ -11,9 +13,13 @@ function isInteractivityAttribute(node) {
 }
 
 function isDeclaredInTopLevel(node, literalDeclaration) {
+  if(!node) {
+    return false;
+  }
+
   const body = node.body;
 
-  if(body.length === 0) {
+  if(!body || body.length === 0) {
     return false;
   }
 
@@ -32,6 +38,14 @@ function isDeclaredUseClient(node) {
   return isDeclaredInTopLevel(node, 'use client');
 }
 
+function inspect(obj, full = true) {
+  if(full) {
+    console.log(util.inspect(obj, false, null, true));
+  } else {
+    console.log(obj)
+  }
+}
+
 module.exports = {
   interactivityAttributes,
   isHookCall,
@@ -39,4 +53,5 @@ module.exports = {
   isDeclaredInTopLevel,
   isDeclaredUseServer,
   isDeclaredUseClient,
+  inspect,
 };

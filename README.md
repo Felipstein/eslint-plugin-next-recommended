@@ -1,1 +1,3 @@
 - Rules para server actions: (já verificar se a função declarada como 'use server' é uma promise)
+- The "use server" directive must be at the top of the function body.
+- The "use client" must be top too? (ver)
