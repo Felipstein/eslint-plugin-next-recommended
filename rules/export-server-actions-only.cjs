@@ -85,6 +85,12 @@ module.exports = {
           return;
         }
 
+        if(declaration?.type === 'Identifier' && declaration.name) {
+          exportedUnknownNames.add(declaration.name);
+
+          return;
+        }
+
         let invalidExportFound = null;
 
         if(declaration?.type === 'Literal') {
