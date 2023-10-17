@@ -6,6 +6,20 @@ const asyncExportedServerActions = require("./rules/async-exported-server-action
 const exportServerActionsOnly = require("./rules/export-server-actions-only.cjs");
 
 module.exports = {
+  configs: {
+    recommended: {
+      plugins: ['next-recommended'],
+      rules: {
+        "next-recommended/require-use-client": "error",
+        "next-recommended/unnecessarily-client-declaration": "warn",
+        "next-recommended/async-component-no-hooks": "error",
+        "next-recommended/async-server-actions": "error",
+        "next-recommended/async-exported-server-actions": "error",
+        "next-recommended/export-server-actions-only": "error",
+      },
+    },
+  },
+
   rules: {
     'unnecessarily-client-declaration': unnecessarilyClientDeclaration,
     'require-use-client': requireUseClient,
