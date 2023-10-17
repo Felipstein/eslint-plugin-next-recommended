@@ -12,6 +12,9 @@ module.exports = {
   },
 
   create(context) {
+    const options = context.options;
+    const autoFix = options && options.length > 0 && options[0].autoFix === true;
+
     let useClientIsDeclared = false;
     let hasInteractivity = false;
     let firstStatement = null;
@@ -41,7 +44,7 @@ module.exports = {
           context.report({
             node: firstStatement,
             message: `Client-side component declared as "use client" without any interactivity or hooks, which is unnecessary.`,
-            fix: (fixer) => {
+            fix: autoFix ? (fixer) => {
               const sourceCode = context.getSourceCode();
 
               const useClientNode = sourceCode.getFirstToken(node);
@@ -57,7 +60,7 @@ module.exports = {
               });
 
               return fixer.removeRange([startOfLine, endOfLine]);
-            },
+            } : undefined,
           });
         }
       }
