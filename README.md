@@ -1,5 +1,4 @@
-- Verificar se está sendo declarado 'use server' dentro de uma função que já está dentro de um arquivo declarado com 'use server'
 - The "use server" directive must be at the top of the function body.
 - The "use client" must be top too? (ver)
-- A "use server" file can only export async functions, found string.
+- A "use server" file can only export async functions, found (valor qualquer).
 - Adicionar comentários para lógicas complexas
