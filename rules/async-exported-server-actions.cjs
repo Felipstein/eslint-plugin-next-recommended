@@ -1,4 +1,4 @@
-const { isDeclaredUseServer } = require('../utils.cjs');
+const { isDeclaredUseServer, isFunction, isNotAsyncFunction } = require('../utils.cjs');
 
 module.exports = {
   meta: {
@@ -36,7 +36,7 @@ module.exports = {
             const variableDeclarator = declaration.declarations[0];
             const initialValue = variableDeclarator.init;
 
-            if((initialValue?.type === 'FunctionExpression' || initialValue?.type === 'ArrowFunctionExpression') && !initialValue.async) {
+            if(isNotAsyncFunction(initialValue)) {
               exportedNoAsyncFunctions.push(initialValue);
             }
           }
@@ -80,7 +80,7 @@ module.exports = {
               if(name) {
                 exportedUnknownNames.add(name);
               }
-            } else if(isFunction(propertyValue) && !propertyValue.async) {
+            } else if(isNotAsyncFunction(propertyValue)) {
               exportedNoAsyncFunctions.push(propertyValue);
             }
           })

@@ -38,6 +38,22 @@ function isDeclaredUseClient(node) {
   return isDeclaredInTopLevel(node, 'use client');
 }
 
+function isFunction(node) {
+  if(!node) {
+    return false;
+  }
+
+  return node.type === 'FunctionDeclaration' || node.type === 'FunctionExpression' || node.type === 'ArrowFunctionExpression';
+}
+
+function isAsyncFunction(node) {
+  return isFunction(node) && node.async;
+}
+
+function isNotAsyncFunction(node) {
+  return isFunction(node) && !node.async;
+}
+
 function inspect(obj, full = true) {
   if(full) {
     console.log(util.inspect(obj, false, null, true));
@@ -53,5 +69,8 @@ module.exports = {
   isDeclaredInTopLevel,
   isDeclaredUseServer,
   isDeclaredUseClient,
+  isFunction,
+  isAsyncFunction,
+  isNotAsyncFunction,
   inspect,
 };
